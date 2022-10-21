@@ -1,6 +1,7 @@
 import express from 'express';
 import cors from 'cors';
-import {router} from '../routes/usuario.route.js'
+import {routerUsuario} from '../routes/usuario.route.js'
+import { routerAuth } from '../routes/auth.route.js';
 import { DBConnection } from '../database/config.js';
 //clase para poder que nuestra app de express este trabajando en una carpeta diferende del app.js
 class Server{
@@ -8,6 +9,9 @@ class Server{
         //delcarando las variables
         this.app = express();
         this.port = process.env.PORT;
+
+        //paths recomendacion: ordenarlo alfabeticamente
+        this.authPath = '/api/auth';
         this.usuariosPath = '/api/usuarios';
 
         //Conectando a la base de datos
@@ -39,7 +43,8 @@ class Server{
     }
     //creamos el metodo para las rutas
     routes(){
-        this.app.use(this.usuariosPath, router)
+        this.app.use(this.authPath, routerAuth)
+        this.app.use(this.usuariosPath, routerUsuario)
     }
 
     listen(){

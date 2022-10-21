@@ -101,3 +101,13 @@ esto se manda desde los parametros
         //usuarios
     });
 ```
+
+# Agregar variables de entonrno a heroku 
+A github no podemos subir nuestro .env porque ahi esta la cadena de conexccion de mondongo, entonces heroku necesita esas variables de entorno, y se hace con el siguiente comando 
+´´´
+heroku config set:nombreVariable="lo que debes ponerle"
+´´´
+Para ver nuestras variables de entorno de heroku es
+´´´
+heroku config
+´´´

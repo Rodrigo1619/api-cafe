@@ -5,14 +5,14 @@ import { esRolValido, emailExiste, existeUsuarioId } from '../helpers/db-validat
 import { validarCampos } from '../middlewares/validar-campos.js';
 
 
-export const router = Router();
+export const routerUsuario = Router();
  
         //debemos cambiar el ('/') porque el middleware ya lo esta usando osea se debe dejar vacio
-        router.get('/', usuariosGet );
+        routerUsuario.get('/', usuariosGet );
 
         //si se mandan solo 2 argumentos se entiende que es ruta y controlador pero si se mandan 3 se entiende que el de en medio es el middleware y se manda como un arreglo
         //el check es para validar que sea y tenga la forma de un correo, para no estar haciendo el monton de expresiones regulares y tener mas limpio el codigo
-        router.post('/',[
+        routerUsuario.post('/',[
                 check('nombre', 'El nombre es obligatorio').not().isEmpty(),
                 check('contraseña', 'La contraseña debe ser mayor a 6 caracteres').isLength({ min: 6}),
                 //check('correo', 'Correo invalido').isEmail(), //forma anterior       
@@ -22,16 +22,16 @@ export const router = Router();
                 validarCampos //si este mw pasa, se ejecutara la funcion de post, de lo contrario no
         ],usuariosPost);
 
-        router.put('/:id',[
+        routerUsuario.put('/:id',[
                 check('id', 'No es un ID válido').isMongoId(),
                 check('id').custom(existeUsuarioId),
                 check('rol').custom(esRolValido), //para que nos mande un rol valido de la base de datos
                 validarCampos //siempre se debe de poner para evitar los errores
         ], usuariosPut); //se le pone :nombreQueLeQueremosDar en este caso id
 
-        router.patch('/', usuariosPatch);
+        routerUsuario.patch('/', usuariosPatch);
         
-        router.delete('/:id',[
+        routerUsuario.delete('/:id',[
                 check('id', 'No es un ID válido').isMongoId(),
                 check('id').custom(existeUsuarioId),
                 validarCampos
