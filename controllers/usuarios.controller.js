@@ -60,11 +60,13 @@ const usuariosPatch = (req,res = response)=>{
 }
 const usuariosDelete = async(req,res=response)=>{
     const {id} = req.params
+
+    //const uid = req.uid //id del usuario que esta haciendo la accion de borrar al otro usuario
     //borrar fisicamente, nunca hacerlo de esta forma, porque se elimina de la base de datos
     //const usuario = await Usuario.findByIdAndDelete(id)
 
     const usuario = await Usuario.findByIdAndUpdate(id, {estado:false})
-    res.json(usuario)
+    res.json(usuario);
 }
 
 
