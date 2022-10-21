@@ -1,10 +1,11 @@
 # Paquetes instalados
 * "bcryptjs"
-"cors"
+* "cors"
 * "dotenv"
 * "express"
 * "express-validator"
 * "mongoose"
+* jsonwebtoken
 # No olvidar
 Ahora se utiliza el import y no require, entonces para que esto agarrre debemos ir al package.json y 
 escribir lo siguiente en el primer corchete
