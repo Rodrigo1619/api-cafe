@@ -34,7 +34,8 @@ const UsuarioSchema = Schema({
 //quitarnos el __v y el password
 UsuarioSchema.methods.toJSON = function(){ //cuando se ejcute el toJSON se ejecutara la funcion
     //se saca el --v y contraseña y se unifica en usuario y retornamos ese valor de usuario
-    const {__v, contraseña, ...usuario} = this.toObject();
+    const {__v, contraseña,_id ,...usuario} = this.toObject();
+    usuario.uid = _id //cambiando el _id por uid en postman y no en mongo
     return usuario
 }
 export default model('Usuario', UsuarioSchema);
