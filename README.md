@@ -111,3 +111,6 @@ Para ver nuestras variables de entorno de heroku es
 ´´´
 heroku config
 ´´´
+
+# Cambios en el nombre de los router
+Debido a como se esta trabajando las importaciones del router, ya que no se puede usar requier, se opto por crear los nombres especificos para los router, usuarioRouter y authRouter
