@@ -1,4 +1,4 @@
-import { response } from "express"
+import { request, response } from "express"
 import Usuario from '../models/usuario.model.js'
 import bcryptjs from 'bcryptjs'
 import { generarJWT } from "../helpers/generar-jwt.js";
@@ -49,6 +49,17 @@ const login = async(req, res=response)=>{
     }
 }
 
+const googleSignIn = async(req=request, res=response)=>{
+
+    const {id_token} = req.body;
+
+    res.json({
+        msg: 'oc',
+        id_token
+    })
+}
+
 export{
-    login
+    login,
+    googleSignIn
 }
