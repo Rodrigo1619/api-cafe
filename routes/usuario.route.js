@@ -4,7 +4,7 @@ import { usuariosGet, usuariosPost, usuariosPut, usuariosPatch, usuariosDelete }
 import { esRolValido, emailExiste, existeUsuarioId } from '../helpers/db-validators.js';
 import { validarCampos } from '../middlewares/validar-campos.js';
 import { validarJWT } from '../middlewares/validar-jwt.js';
-import { esAdminRol } from '../middlewares/validar-roles.js';
+import { esAdminRol, tieneRol } from '../middlewares/validar-roles.js';
 
 
 export const routerUsuario = Router();
@@ -35,7 +35,8 @@ export const routerUsuario = Router();
         
         routerUsuario.delete('/:id',[
                 validarJWT,
-                esAdminRol,
+                //esAdminRol, // A FUERZA ES ROL ADMIN 
+                tieneRol('ADMIN-ROL', 'VENTAS_ROL', 'USUARIO_ROL'),
                 check('id', 'No es un ID válido').isMongoId(),
                 check('id').custom(existeUsuarioId),
                 validarCampos

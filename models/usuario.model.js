@@ -20,7 +20,7 @@ const UsuarioSchema = Schema({
     rol:{
         type: String,
         required: true,
-        emun: ['ADMIN_ROL', 'USUARIO_ROL']
+        emun: ['ADMIN_ROL', 'USUARIO_ROL'] //VENTAS_ROL CREADO EN LA DB
     },
     estado:{
         type: Boolean,
