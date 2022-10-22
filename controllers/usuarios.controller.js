@@ -3,8 +3,6 @@ import bcryptjs from 'bcryptjs';
 import Usuario from '../models/usuario.model.js';
 
 const usuariosGet = async(req=request,res = response)=>{
-    //const {q, nombre = 'no name', apikey, page=1, limit} = req.query;//para extraer la info del params pero que es opcional, los que van despues del ?
-    //res.send('Ola camaron sin cola'); cambiamos el send por json para no mandar un html sino un archivo en formato json se hace la peticion en postman con la url
     
     const {limite = 5, desde = 0} = req.query //por defecto mandaremos 5 usuarios
     const query = {estado: true}
@@ -22,8 +20,7 @@ const usuariosGet = async(req=request,res = response)=>{
 }
 const usuariosPost = async(req,res = response)=>{
 
-    //extraer el body //const body = req.body; forma normal
-    //const {nombre, edad} = req.body //con desestructuracion
+    
     const {nombre, correo, contraseña, rol} = req.body
     const usuario = new Usuario({nombre, correo, contraseña, rol}); //instanciamos un nuevo usuario
     
@@ -62,11 +59,9 @@ const usuariosDelete = async(req,res=response)=>{
     const {id} = req.params
 
     //const uid = req.uid //id del usuario que esta haciendo la accion de borrar al otro usuario
-    //borrar fisicamente, nunca hacerlo de esta forma, porque se elimina de la base de datos
-    //const usuario = await Usuario.findByIdAndDelete(id)
-
     const usuario = await Usuario.findByIdAndUpdate(id, {estado:false})
-    res.json(usuario);
+    //const usuarioAutenticado =  req.usuario //extrayendo la informacion del usuario
+    res.json(usuario); //se manda a llamar ({usuario, usuarioAutenticado})
 }
 
 

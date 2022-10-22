@@ -28,7 +28,7 @@ export const routerUsuario = Router();
                 check('id').custom(existeUsuarioId),
                 check('rol').custom(esRolValido), //para que nos mande un rol valido de la base de datos
                 validarCampos //siempre se debe de poner para evitar los errores
-        ], usuariosPut); //se le pone :nombreQueLeQueremosDar en este caso id
+        ], usuariosPut);
 
         routerUsuario.patch('/', usuariosPatch);
         

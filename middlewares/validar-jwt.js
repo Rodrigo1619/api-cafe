@@ -1,7 +1,9 @@
 import { response, request } from 'express';
 import jwt from 'jsonwebtoken';
+import Usuario from '../models/usuario.model.js';
 
-const validarJWT = (req = request, res=response, next)=>{
+
+const validarJWT = async(req = request, res=response, next)=>{
     const token = req.header('x-token');
 
     if(!token){
@@ -12,8 +14,23 @@ const validarJWT = (req = request, res=response, next)=>{
     try {
         
         const {uid} = jwt.verify(token,process.env.SECRETORPRIVATEKEY);
+        
+        //leer el usuario que corresponde al uid
+        const usuario = await Usuario.findById(uid);
 
-        req.uid = uid;
+        if(!usuario){
+            return res.status(401).json({
+                msg: 'Usuario no existe en la DB'
+            })
+        }
+
+        if(!usuario.estado){
+            return res.status(401).json({
+                msg: 'Usuario inexistente, estado: false'
+            })
+        }
+        
+        req.usuario = usuario;
 
         next();
     } catch (error) {
