@@ -115,3 +115,9 @@ heroku config
 
 # Cambios en el nombre de los router
 Debido a como se esta trabajando las importaciones del router, ya que no se puede usar requier, se opto por crear los nombres especificos para los router, usuarioRouter y authRouter
+
+# Ver logs en heroku
+* heroku logs -n 100 
+Se entiende que ese 100 son los ultimos 100 logs
+* heroku logs -n 100 --tail
+Este es para que mantenga en vivo todos los logs, si hay uno nuevo lo mostrara en tiempo real, casi que como nodemon
