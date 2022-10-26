@@ -1,7 +1,8 @@
-import { request, response } from "express"
+import { json, request, response } from "express"
 import Usuario from '../models/usuario.model.js'
 import bcryptjs from 'bcryptjs'
 import { generarJWT } from "../helpers/generar-jwt.js";
+import { googleVerify } from "../helpers/google-verify.js";
 
 const login = async(req, res=response)=>{
 
@@ -53,10 +54,23 @@ const googleSignIn = async(req=request, res=response)=>{
 
     const {id_token} = req.body;
 
-    res.json({
-        msg: 'oc',
-        id_token
-    })
+    try {
+
+        const googleUser = await googleVerify(id_token)
+        console.log(googleUser)
+
+        res.json({
+            msg: 'oc el google signin',
+            id_token 
+        })
+        
+    }catch(error) {
+        error.status(400).json({
+            ok: false,
+            msg: 'Ni modo el token no se pudo verificar'
+        })
+    }
+
 }
 
 export{
