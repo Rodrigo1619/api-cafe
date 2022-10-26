@@ -3,6 +3,7 @@ import Usuario from '../models/usuario.model.js'
 import bcryptjs from 'bcryptjs'
 import { generarJWT } from "../helpers/generar-jwt.js";
 import { googleVerify } from "../helpers/google-verify.js";
+import { DefaultTransporter } from "google-auth-library";
 
 const login = async(req, res=response)=>{
 
@@ -56,16 +57,44 @@ const googleSignIn = async(req=request, res=response)=>{
 
     try {
 
-        const googleUser = await googleVerify(id_token)
-        console.log(googleUser)
+        const {nombre, correo, img} = await googleVerify(id_token)
+        
+        //generar referencia para ver si el correo ya existe en la base de datos
+        let usuario = await Usuario.findOne({correo})
+
+        if(!usuario){
+            const data = { //data del usuario
+                nombre, 
+                correo,
+                contraseña: ':P',
+                img,
+                google: true,
+                rol //se debe agregar rol porque es campo obligatorio
+            }
+
+            //creamos el usuario si no existe
+            usuario = new Usuario(data)
+            usuario.save()
+        }
+
+        //Si el usuario tiene estado falso de google
+        if(!usuario.estado){
+            return res.status(401).json({
+                msg: 'Hable con el admin porque el usuario ha sido bloqueado'
+            })
+        }
+
+        //generando el JWT
+        const token = await generarJWT(usuario.id)
 
         res.json({
-            msg: 'oc el google signin',
-            id_token 
+            usuario,
+            token
         })
         
     }catch(error) {
-        error.status(400).json({
+        console.log(error)
+        res.status(400).json({
             ok: false,
             msg: 'Ni modo el token no se pudo verificar'
         })
