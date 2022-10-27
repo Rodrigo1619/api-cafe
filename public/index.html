@@ -15,14 +15,19 @@
         data-auto_prompt="false"
         data-callback="handleCredentialResponse">
     </div>
-        <div class="g_id_signin"
+    <div class="g_id_signin"
         data-type="standard"
         data-size="large"
         data-theme="outline"
         data-text="sign_in_with"
         data-shape="rectangular"
         data-logo_alignment="left">
-        </div>
+    </div>
+
+    <button id="google_signout">
+        Signout
+    </button>
+
 
 
     <script src="https://accounts.google.com/gsi/client" async defer></script>
@@ -44,9 +49,22 @@
                 .then(resp => resp.json())
                 .then(resp=>{
                     console.log(resp)
+                    localStorage.setItem('email',resp.usuario.correo)//guardando en LS para poder hacer signout mas adelante
                 })
                 .catch(console.warn)
         }
+        //haciendo el log out de la cuenta
+        const button = document.getElementById('google_signout')
+        button.onclick = ()=>{
+            console.log(google.accounts.id)
+            google.accounts.id.disableAutoSelect()
+
+            google.accounts.id.revoke(localStorage.getItem('email'), done=>{
+                localStorage.clear()
+                location.reload()//para recargar el estado de nuestra pagina
+            })
+        }
+
     </script>
 </body>
 </html>
