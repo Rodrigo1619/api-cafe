@@ -123,7 +123,24 @@ Se entiende que ese 100 son los ultimos 100 logs
 Este es para que mantenga en vivo todos los logs, si hay uno nuevo lo mostrara en tiempo real, casi que como nodemon
 
 # Configurar auth de google y obtener sus keys
-pendiente
+Todos estos pasos es para generar nuestros IDs y configurar nuestro google cloud
+* irse al siguiente link https://developers.google.com/identity/gsi/web/guides/get-google-api-clientid
+* ir a la parte del setup
+* ir a Google APIs console (https://console.cloud.google.com/apis/dashboard) e iniciar sesion
+* ir a la parte de arriba donde despliega un menu para los proyectos y creamos uno nuevo si es necesario 
+* si creamos proyecto llenamos los datos y damos en crear
+* ir a la parte de credenciales 
+* Ir a la parte del ID clientes OAuth2.0
+* Ir a la parte de pantalla de consentimiento y trabajar de forma interno o externo y crear
+* Llenar toda la informacion y dar en continuar
+* Una vez lo de consentimiento hecho vamos a credenciales
+* Crear credenciales - ID de cliente de OAuth
+* Tipo de apliacion es app web y poner su nombre
+* Origenes autorizados de Javascript: agregar siempre estas 2 (http://localhost - http://localhost:8080 )
+* A la hora antes de subir la app a produccion tambien es necesario agregar ese link tanto en codigo como en los URIs de google (https://apicoffe.herokuapp.com)
+* Al darle listo nos redigira al main menu y nos dara nuestros ID de google que agregaremos en nuestros .env
+* Si queremos ver de nuevo nuestros ID solo entramos a nuestro OAuth 2.0 client IDs y ahi saldran 
+
 
 # Hacer documentacion desde postman
 * Dar en los 3 puntos de nuestra collecion de peticiones
