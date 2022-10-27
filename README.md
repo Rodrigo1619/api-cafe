@@ -121,3 +121,11 @@ Debido a como se esta trabajando las importaciones del router, ya que no se pued
 Se entiende que ese 100 son los ultimos 100 logs
 * heroku logs -n 100 --tail
 Este es para que mantenga en vivo todos los logs, si hay uno nuevo lo mostrara en tiempo real, casi que como nodemon
+
+# Configurar auth de google y obtener sus keys
+pendiente
+
+# Hacer documentacion desde postman
+* Dar en los 3 puntos de nuestra collecion de peticiones
+* View documentation
+* Dar al boton de publish
