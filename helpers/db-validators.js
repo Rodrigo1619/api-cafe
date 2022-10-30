@@ -22,9 +22,13 @@ const existeUsuarioId = async(id)=>{
         throw new Error(`El id ${id} no existe`)
     }
 }
+const existeCategoria = async()=>{
+    console.log('a')
+}
 
 export{
     esRolValido,
     emailExiste,
-    existeUsuarioId
+    existeUsuarioId,
+    existeCategoria
 }

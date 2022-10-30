@@ -146,3 +146,6 @@ Todos estos pasos es para generar nuestros IDs y configurar nuestro google cloud
 * Dar en los 3 puntos de nuestra collecion de peticiones
 * View documentation
 * Dar al boton de publish
+
+# Mandar el token 
+Hacemos el login, y en la parte de headers mandamos el nombre x-token (asi le pusimos) y a la par el token y mandar la peticion
