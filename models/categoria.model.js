@@ -17,5 +17,10 @@ const CategoriaSchema = Schema({
         required: true
     }
 })
+//quitarnos el __v
+CategoriaSchema.methods.toJSON = function(){ //cuando se ejcute el toJSON se ejecutara la funcion
+    const {__v,estado,...data} = this.toObject();
+    return data
+}
 
 export default model('Categoria', CategoriaSchema);

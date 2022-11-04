@@ -1,5 +1,4 @@
-import Role from '../models/role.model.js'
-import Usuario from '../models/usuario.model.js'
+import { Categoria, Usuario, Role } from '../models/index.model.js'
 
 //validando si es un rol que ya esta establecido en la base de datos
 const esRolValido = async(rol = '')=>{
@@ -22,13 +21,16 @@ const existeUsuarioId = async(id)=>{
         throw new Error(`El id ${id} no existe`)
     }
 }
-const existeCategoria = async()=>{
-    console.log('a')
+const existeCategoriaPorId = async(id)=>{
+    const existeCategoria = await Categoria.findById(id)
+    if(!existeCategoria){ //si el usuario esta en null o no existe 
+        throw new Error(`El id ${id} para la categoria no existe`)
+    }
 }
 
 export{
     esRolValido,
     emailExiste,
     existeUsuarioId,
-    existeCategoria
+    existeCategoriaPorId
 }
