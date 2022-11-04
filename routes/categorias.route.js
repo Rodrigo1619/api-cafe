@@ -1,9 +1,10 @@
 import {Router} from 'express';
 import { check } from 'express-validator';
-import { crearCategoria, obtenerCategoria, obtenerCategorias } from '../controllers/categorias.controller.js';
+import { actualizarCategoria, borrarCategoria, crearCategoria, obtenerCategoria, obtenerCategorias } from '../controllers/categorias.controller.js';
 import { existeCategoriaPorId } from '../helpers/db-validators.js';
 import { validarCampos } from '../middlewares/validar-campos.js';
 import {validarJWT} from '../middlewares/validar-jwt.js';
+import { esAdminRol } from '../middlewares/validar-roles.js';
 
 export const routerCategoria = Router();
 
@@ -28,12 +29,20 @@ routerCategoria.post('/',[
 
 
 //actualizar categoria - privado, cualquiera con token valido
-routerCategoria.put('/:id', (req, res)=>{
-    res.json('put')
-})
+routerCategoria.put('/:id', [
+    validarJWT,
+    check('nombre','El nombre de la categoria es obligatorio').not().isEmpty(),
+    check('id').custom(existeCategoriaPorId),
+    validarCampos
+],actualizarCategoria)
 
 
 //borrar categoria - solo el admin puede
-routerCategoria.delete('/:id', (req, res)=>{
-    res.json('delete')
-})
+routerCategoria.delete('/:id',[
+    validarJWT,
+    esAdminRol,
+    check('id', 'No es mongo id').isMongoId(),
+    check('id').custom(existeCategoriaPorId),
+    validarCampos
+
+],borrarCategoria)

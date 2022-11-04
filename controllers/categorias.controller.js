@@ -56,11 +56,38 @@ const crearCategoria = async(req = request, res=response )=>{
     //mandamos la respuesta
     res.status(201).json({categoria})
 }
+
 //actualizar categoria 
+const actualizarCategoria = async(req=request, res=response)=>{
+    const {id} = req.params
+    const {estado, usuario, ...data } = req.body
+    data.nombre = data.nombre.toUpperCase()
+    data.usuario = req.usuario._id
+
+    const categoria = await Categoria.findByIdAndUpdate(id, data, {new:true}) //new:true solamente muestra la informacion actualizada del nuevo doc en la respuesta
+    res.json({
+        msg:'Categoria actualizada',
+        categoria
+    })
+}
+
 
 //borrar categoria - estado :false
+const borrarCategoria = async(req=request, res=response)=>{
+    const {id} = req.params
+    const categoriaBorrada = await Categoria.findByIdAndUpdate(id, {estado:false}, {new:true})
+
+    res.json({
+        msg:'Categoria eliminada',
+        categoriaBorrada
+    })
+}
+
+
 export{
     crearCategoria,
     obtenerCategorias,
-    obtenerCategoria
+    obtenerCategoria,
+    actualizarCategoria,
+    borrarCategoria
 }
