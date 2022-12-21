@@ -8,17 +8,28 @@ const coleccionesPermitidas = [
     'roles'
 ]
 const buscarUsuarios = async(termino='', res = response)=>{
-    const esMongoID = isValidObjectId(termino)
+    const esMongoID = isValidObjectId(termino) //devuelve un true
     if(esMongoID){
         const usuario = await Usuario.findById(termino)
         res.json({
             results: (usuario) ? [usuario] : [] //si usuario existe, mandar el arreglo con infor. sino mandar arreglo vacio
         })
     }
+
+    //expresion regular para hacer busqueda insensibles para encontrar nombres coincidentes
+    const regex = RegExp(termino, 'i') //'i' es lo de insensible a mayusculas y minusculas
+    //buscar por nombre de usuario
+    const usuarios = await Usuario.find({
+        $or: [{nombre: regex}, {correo: regex}], //que el nombre o correo concuerden con la expresion regular 
+        $and: [{estado:true}]
+    }) 
+    res.json({
+        results: usuarios
+    })
 }
 
 const buscar = (req=request, res=response)=>{
-    const {coleccion, termino} = req.params
+    const {coleccion, termino} = req.params //es lo que mandaremos a los parametros de la consulta
 
     if(!coleccionesPermitidas.includes(coleccion)){
         return res.status(400).json({
