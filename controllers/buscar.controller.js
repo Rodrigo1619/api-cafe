@@ -1,11 +1,22 @@
 import { request, response } from "express";
-
+import { isValidObjectId, ObjectId } from "mongoose";
+import { Usuario } from "../models/index.model.js";
 const coleccionesPermitidas = [
     'categoria',
     'producto',
     'usuario',
     'roles'
 ]
+const buscarUsuarios = async(termino='', res = response)=>{
+    const esMongoID = isValidObjectId(termino)
+    if(esMongoID){
+        const usuario = await Usuario.findById(termino)
+        res.json({
+            results: (usuario) ? [usuario] : [] //si usuario existe, mandar el arreglo con infor. sino mandar arreglo vacio
+        })
+    }
+}
+
 const buscar = (req=request, res=response)=>{
     const {coleccion, termino} = req.params
 
@@ -25,19 +36,17 @@ const buscar = (req=request, res=response)=>{
         break;
 
         case 'usuario':
+            buscarUsuarios(termino, res)
 
         break;
 
         default: 
             res.status(500).json({
-                msg: 'Al backend se le ha olvidado implementar esta busqueda'
+                msg: 'Al backend se le ha olvidado implementar esta busqueda. Contactelo  '
         })
     }
 
 
-    res.json({
-        coleccion, termino
-    })
 }
 
 export{
