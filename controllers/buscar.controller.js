@@ -15,7 +15,7 @@ const buscar = (req=request, res=response)=>{
         })
     }
 
-    switch(key){
+    switch(coleccion){
         case 'categoria':
 
         break;
