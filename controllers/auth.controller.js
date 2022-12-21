@@ -69,7 +69,7 @@ const googleSignIn = async(req=request, res=response)=>{
                 contraseña: ':P',
                 img,
                 google: true,
-                rol //se debe agregar rol porque es campo obligatorio
+                rol: 'USUARIO_ROL' //se debe agregar rol porque es campo obligatorio
             }
 
             //creamos el usuario si no existe

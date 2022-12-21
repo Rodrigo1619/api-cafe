@@ -140,6 +140,7 @@ Todos estos pasos es para generar nuestros IDs y configurar nuestro google cloud
 * A la hora antes de subir la app a produccion tambien es necesario agregar ese link tanto en codigo como en los URIs de google (https://apicoffe.herokuapp.com)
 * Al darle listo nos redigira al main menu y nos dara nuestros ID de google que agregaremos en nuestros .env
 * Si queremos ver de nuevo nuestros ID solo entramos a nuestro OAuth 2.0 client IDs y ahi saldran 
+* Para crear ya un usuario y que se guarde en la base datos solamente basta con iniciar sesion en google.
 
 
 # Hacer documentacion desde postman
