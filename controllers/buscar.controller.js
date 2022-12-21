@@ -1,6 +1,6 @@
 import { request, response } from "express";
 import { isValidObjectId, ObjectId } from "mongoose";
-import { Usuario } from "../models/index.model.js";
+import { Usuario, Categoria, Producto } from "../models/index.model.js";
 const coleccionesPermitidas = [
     'categoria',
     'producto',
@@ -27,6 +27,38 @@ const buscarUsuarios = async(termino='', res = response)=>{
         results: usuarios
     })
 }
+const buscarCategorias = async(termino = '', res = response)=>{
+    const esMongoID = isValidObjectId(termino)
+    if(esMongoID){
+        const categoria = await Categoria.findById(termino)
+        res.json({
+            results: (categoria) ? [categoria] : []
+        })
+    }
+    //expresion regular para hacer busqueda insensibles para encontrar nombres coincidentes
+    const regex = RegExp(termino, 'i') //'i' es lo de insensible a mayusculas y minusculas
+    //buscar por nombre de usuario
+    const categorias = await Categoria.find({nombre:regex, estado:true}) 
+    res.json({
+        results: categorias
+    })
+}
+const buscarProductos = async(termino = '', res = response)=>{
+    const esMongoID = isValidObjectId(termino)
+    if(esMongoID){
+        const producto = await Producto.findById(termino).populate('categoria', 'nombre') //mostrar el nombre de la categoria y no solo id
+        res.json({
+            results: (producto) ? [producto] : []
+        })
+    }
+    //expresion regular para hacer busqueda insensibles para encontrar nombres coincidentes
+    const regex = RegExp(termino, 'i') //'i' es lo de insensible a mayusculas y minusculas
+    //buscar por nombre de usuario
+    const productos = await Producto.find({nombre:regex, estado:true}).populate('categoria', 'nombre')//mostrar nombre de categoria y no solo id
+    res.json({
+        results: productos
+    })
+}
 
 const buscar = (req=request, res=response)=>{
     const {coleccion, termino} = req.params //es lo que mandaremos a los parametros de la consulta
@@ -39,11 +71,11 @@ const buscar = (req=request, res=response)=>{
 
     switch(coleccion){
         case 'categoria':
-
+            buscarCategorias(termino, res)
         break;
 
         case 'producto':
-
+            buscarProductos(termino, res)
         break;
 
         case 'usuario':
