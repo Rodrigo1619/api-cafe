@@ -1,11 +1,14 @@
 import express from 'express';
 import cors from 'cors';
+
 import { DBConnection } from '../database/config.js';
+
 import {routerUsuario} from '../routes/usuario.route.js'
 import { routerAuth } from '../routes/auth.route.js';
 import { routerCategoria } from '../routes/categorias.route.js';
 import { routerProducto } from '../routes/productos.route.js';
 import { routerBuscar } from '../routes/buscar.route.js';
+import { routerUpload } from '../routes/uploads.route.js';
 //clase para poder que nuestra app de express este trabajando en una carpeta diferende del app.js
 class Server{
     constructor(){
@@ -19,7 +22,8 @@ class Server{
             buscar:'/api/buscar',
             categorias:'/api/categorias',
             productos:'/api/productos',
-            usuarios: '/api/usuarios'
+            usuarios: '/api/usuarios',
+            uploads: '/api/uploads'
         }
 
         //Conectando a la base de datos
@@ -56,6 +60,7 @@ class Server{
         this.app.use(this.paths.categorias, routerCategoria);
         this.app.use(this.paths.productos, routerProducto);
         this.app.use(this.paths.usuarios, routerUsuario);
+        this.app.use(this.paths.uploads, routerUpload);
     }
 
     listen(){
