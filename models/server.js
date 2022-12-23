@@ -53,9 +53,12 @@ class Server{
         this.app.use(express.json())
 
         //Carga de archivos
+        //ojo: el createParentPath por defecto es false, esto crea un nuevo directorio si asi nosotros queremos
+        //pero si no sabemos exactamente donde estamos guardando la informacion puede lelgar a darnos problemas
         this.app.use(fileUpload({
             useTempFiles : true,
-            tempFileDir : '/tmp/'
+            tempFileDir : '/tmp/',
+            createParentPath: true
         }));
     }
     //creamos el metodo para las rutas
