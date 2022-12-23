@@ -2,13 +2,11 @@ import express from 'express';
 import cors from 'cors';
 
 import { DBConnection } from '../database/config.js';
+import { 
+    routerAuth, routerBuscar, routerCategoria, 
+    routerProducto, routerUsuario, routerUpload } 
+from '../routes/index.route.js';
 
-import {routerUsuario} from '../routes/usuario.route.js'
-import { routerAuth } from '../routes/auth.route.js';
-import { routerCategoria } from '../routes/categorias.route.js';
-import { routerProducto } from '../routes/productos.route.js';
-import { routerBuscar } from '../routes/buscar.route.js';
-import { routerUpload } from '../routes/uploads.route.js';
 //clase para poder que nuestra app de express este trabajando en una carpeta diferende del app.js
 class Server{
     constructor(){
