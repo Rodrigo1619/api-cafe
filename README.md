@@ -150,3 +150,8 @@ Todos estos pasos es para generar nuestros IDs y configurar nuestro google cloud
 
 # Mandar el token 
 Hacemos el login, y en la parte de headers mandamos el nombre x-token (asi le pusimos) y a la par el token y mandar la peticion
+
+# Mandar archivos por postman
+* En nuestra ruta api/uploads nos vamos donde dice body
+* En el apartado de key le ponemos el nombre que queremos y cambiamos el text por file
+* En el apartado de la par damos en subir archivo y volvemos a dar send a la peticion

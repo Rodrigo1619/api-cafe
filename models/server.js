@@ -1,5 +1,6 @@
 import express from 'express';
 import cors from 'cors';
+import fileUpload from 'express-fileupload';
 
 import { DBConnection } from '../database/config.js';
 import { 
@@ -50,6 +51,12 @@ class Server{
 
         //lectura y parseo del body
         this.app.use(express.json())
+
+        //Carga de archivos
+        this.app.use(fileUpload({
+            useTempFiles : true,
+            tempFileDir : '/tmp/'
+        }));
     }
     //creamos el metodo para las rutas
     routes(){
