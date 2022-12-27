@@ -1,6 +1,12 @@
+import path from 'path';
+import fs from 'fs';
 import { request, response } from "express";
 import { Usuario, Producto } from "../models/index.model.js";
 import { subirArchivo } from "../helpers/subir-archivo.js";
+
+//para no recibir error de __dirname is not defined
+import { fileURLToPath } from 'url';
+const __dirname = path.dirname(fileURLToPath(import.meta.url));
 
 
 const cargarArchivo = async(req=request, res=response)=>{
@@ -43,6 +49,15 @@ const actualizarImagen = async(req=request, res=response)=>{
             break;
         default:
             return res.status(500).json({msg:'Al backend se le olvido validar esto, contactelo'})
+    }
+
+    //Limpiar imagenes previas
+    if(modelo.img){
+        //borrar la imagen del servidor
+        const pathImagen = path.join(__dirname, '../uploads', coleccion, modelo.img)
+        if(fs.existsSync(pathImagen)){//si devuelve el true borrara la imagen
+            fs.unlinkSync(pathImagen)
+        }
     }
 
     //se deja coleccion sin el '' debido a que hoy se haran las carpetas automaticas desde el nombre de la coleccion
