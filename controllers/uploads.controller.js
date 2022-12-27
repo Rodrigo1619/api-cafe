@@ -70,7 +70,48 @@ const actualizarImagen = async(req=request, res=response)=>{
     res.json(modelo)
 }
 
+const mostrarImagen = async(req=request, res=response)=>{
+    
+    //trayendo la informacion que necesitamos de los parametros (request)
+    const {id, coleccion} = req.params
+    let modelo
+
+    switch (coleccion) {
+        case 'usuarios':
+            modelo = await Usuario.findById(id)
+            if(!modelo){
+                return res.status(400).json({
+                    msg: `No existe un usuario con el id ${id}`
+                })
+            }
+            break;
+
+        case 'productos':
+            modelo = await Producto.findById(id)
+            if(!modelo){
+                return res.status(400).json({
+                    msg: `No existe un producto con el id ${id}`
+                })
+            }
+            break;
+        default:
+            return res.status(500).json({msg:'Al backend se le olvido validar esto, contactelo'})
+    }
+
+    //Mostrando las imagenes 
+    if(modelo.img){
+        //mostrar la imagen de la peticion
+        const pathImagen = path.join(__dirname, '../uploads', coleccion, modelo.img)
+        if(fs.existsSync(pathImagen)){//si devuelve el true mostrara la imagen
+            return res.sendFile(pathImagen)
+        }
+    }
+    const noImgPath = path.join(__dirname, '../assets/no-image.jpg')
+    res.sendFile(noImgPath)
+}
+
 export{
     cargarArchivo,
-    actualizarImagen
+    actualizarImagen,
+    mostrarImagen
 }
