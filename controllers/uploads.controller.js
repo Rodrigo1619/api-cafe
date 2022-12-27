@@ -50,9 +50,14 @@ const actualizarImagen = async(req=request, res=response)=>{
             return res.status(500).json({msg:'Al backend se le olvido validar esto, contactelo'})
     }
 
-    res.json({
-        id, coleccion
-    })
+    //se deja coleccion sin el '' debido a que hoy se haran las carpetas automaticas desde el nombre de la coleccion
+    const nombreArchivo = await subirArchivo(req.files, undefined, coleccion) //dejar undefined para traer extensiones por defecto
+    modelo.img = nombreArchivo
+
+    await modelo.save()
+
+
+    res.json(modelo)
 }
 
 export{
