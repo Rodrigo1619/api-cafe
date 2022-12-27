@@ -33,11 +33,22 @@ const existeProductoPorId = async(id)=>{
         throw new Error(`El id ${id} para el producto no existe`)
     }
 }
+//validando colecciones permitidas para el router de uploads
+const coleccionesPermitidas = (coleccion = '', colecciones = [])=>{
+    //si en las colecciones que nosotros permitimos esta la coleccion que el usuario introduce
+    const coleccionIncluida = colecciones.includes(coleccion)
+    if(!coleccionIncluida){
+        throw new Error (`La colección ${coleccion} no esta en la lista, solamente estan ${colecciones}`)
+    }
+    //mandamos return true debido que en el MW de routerUploads mandamos a llamar una funcion con argumentos
+    return true
+}
 
 export{
     esRolValido,
     emailExiste,
     existeUsuarioId,
     existeCategoriaPorId,
-    existeProductoPorId
+    existeProductoPorId,
+    coleccionesPermitidas
 }
