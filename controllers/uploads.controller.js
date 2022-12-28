@@ -3,6 +3,10 @@ import fs from 'fs';
 import { request, response } from "express";
 import { Usuario, Producto } from "../models/index.model.js";
 import { subirArchivo } from "../helpers/subir-archivo.js";
+import {v2 as cloudinary} from 'cloudinary'
+
+//autenticando a cloudinary
+cloudinary.config(process.env.CLOUDINARY_URL)
 
 //para no recibir error de __dirname is not defined
 import { fileURLToPath } from 'url';
@@ -70,6 +74,48 @@ const actualizarImagen = async(req=request, res=response)=>{
     res.json(modelo)
 }
 
+const actualizarImagenCloudinary = async(req=request, res=response)=>{
+
+    //trayendo la informacion que necesitamos de los parametros (request)
+    const {id, coleccion} = req.params
+    let modelo //let para que pueda cambiar entre producto y usuario
+
+    switch (coleccion) {
+        case 'usuarios':
+            modelo = await Usuario.findById(id)
+            if(!modelo){
+                return res.status(400).json({
+                    msg: `No existe un usuario con el id ${id}`
+                })
+            }
+            break;
+
+        case 'productos':
+            modelo = await Producto.findById(id)
+            if(!modelo){
+                return res.status(400).json({
+                    msg: `No existe un producto con el id ${id}`
+                })
+            }
+            break;
+        default:
+            return res.status(500).json({msg:'Al backend se le olvido validar esto, contactelo'})
+    }
+
+    //Limpiar imagenes previas
+    if(modelo.img){
+        
+    }
+    const {tempFilePath} = req.files.archivo //esto viene de los request
+    const {secure_url} = await cloudinary.uploader.upload(tempFilePath)//es una promesa y desestructuramos el secure_url que es lo que nos interesa
+
+    modelo.img = secure_url //el modelo con su propiedad de img debe ser ese secure_url
+
+    await modelo.save()
+
+    res.json(modelo)
+}
+
 const mostrarImagen = async(req=request, res=response)=>{
     
     //trayendo la informacion que necesitamos de los parametros (request)
@@ -113,5 +159,6 @@ const mostrarImagen = async(req=request, res=response)=>{
 export{
     cargarArchivo,
     actualizarImagen,
-    mostrarImagen
+    mostrarImagen,
+    actualizarImagenCloudinary
 }

@@ -155,3 +155,6 @@ Hacemos el login, y en la parte de headers mandamos el nombre x-token (asi le pu
 * En nuestra ruta api/uploads nos vamos donde dice body
 * En el apartado de key le ponemos el nombre que queremos y cambiamos el text por file
 * En el apartado de la par damos en subir archivo y volvemos a dar send a la peticion
+
+# cloudinary
+* Tener la variable de entorno que nos da ya la plataforma
